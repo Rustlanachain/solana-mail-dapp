@@ -8,23 +8,16 @@ pub mod solana_mail_dapp {
     use super::*;
 
     pub fn send_tweet(ctx: Context<SendTweet>, topic: String, content: String) -> Result<()> {
-        let tweet: &mut Account<Tweet> = &mut ctx.accounts.tweet;
+        let mail: &mut Account<Mail> = &mut ctx.accounts.tweet;
         let author: &Signer = &ctx.accounts.author;
+        let reciever=&ctx.accounts.receiver;
         let clock: Clock = Clock::get().unwrap();
 
-        // if topic.chars().count() > 50 {
-        //     // Return a error...
-        //     return Err(ErrorCode::TopicTooLong.into())
-        // }
-    
-        if content.chars().count() > 280 {
-            // Return a error...
-        }
-
-        tweet.author = *author.key;
-        tweet.timestamp = clock.unix_timestamp;
-        tweet.topic = topic;
-        tweet.content = content;
+        mail.author = *author.key;
+        mail.reciever =  *reciever.key;
+        mail.subject = topic;
+        mail.body = content;
+        mail.timestamp = clock.unix_timestamp;
         Ok(())
     }
 }
@@ -32,9 +25,11 @@ pub mod solana_mail_dapp {
 #[derive(Accounts)]
 pub struct SendTweet<'info> {
     #[account(init, payer = author, space = 4000)]
-    pub tweet: Account<'info, Tweet>,
+    pub tweet: Account<'info, Mail>,
     #[account(mut)]
     pub author: Signer<'info>,
+    #[account(mut)]
+    pub receiver: AccountInfo<'info>,
     #[account(address = system_program::ID)]
     /// CHECK:
     pub system_program: AccountInfo<'info>,
@@ -42,9 +37,10 @@ pub struct SendTweet<'info> {
 
 // 1. Define the structure of the Tweet account.
 #[account]
-pub struct Tweet {
+pub struct Mail {
     pub author: Pubkey,
+    pub reciever: Pubkey,
+    pub subject: String,
+    pub body: String,
     pub timestamp: i64,
-    pub topic: String,
-    pub content: String,
 }
