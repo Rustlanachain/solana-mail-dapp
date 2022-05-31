@@ -12,8 +12,8 @@ describe("solana-mail-dapp", () => {
   const program = anchor.workspace.SolanaMailDapp as Program<SolanaMailDapp>;
 
   
-  it('can send a new tweet', async () => {
-    // Call the "SendTweet" instruction.
+  it('can send a new mail', async () => {
+    // Call the "SendMail" instruction.
     const mail = anchor.web3.Keypair.generate();
     await program.rpc.sendMail('veganism', 'Hummus, am I right?', {
         accounts: {
