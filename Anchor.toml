@@ -1,14 +1,14 @@
 [features]
 seeds = false
 [programs.localnet]
-solana_mail_dapp = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+solana_mail_dapp = "83nKp3FskjAeCLwNWnrB6a4SStFC7fpi93LUAYsBwnCA"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
-wallet = "/Users/macbookpro/.config/solana/id.json"
+cluster = "devnet"
+wallet = "devnet.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
