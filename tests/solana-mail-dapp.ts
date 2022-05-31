@@ -15,11 +15,12 @@ describe("solana-mail-dapp", () => {
   it('can send a new mail', async () => {
     // Call the "SendMail" instruction.
     const mail = anchor.web3.Keypair.generate();
-    await program.rpc.sendMail('veganism', 'Hummus, am I right?', {
+    const receiver = anchor.web3.Keypair.generate();
+    await program.rpc.sendMail('Resume', 'candidate for Software Engineering Internship', {
         accounts: {
             mail: mail.publicKey,
             sender: provider.wallet.publicKey,
-            receiver: provider.wallet.publicKey,
+            receiver:receiver.publicKey,
             systemProgram: anchor.web3.SystemProgram.programId,
         },
         signers: [mail],
@@ -30,8 +31,9 @@ describe("solana-mail-dapp", () => {
   	//console.log(mailAccount);
     // Ensure it has the right data.
     assert.equal(mailAccount.sender.toBase58(), provider.wallet.publicKey.toBase58());
-    assert.equal(mailAccount.subject, 'veganism');
-    assert.equal(mailAccount.body, 'Hummus, am I right?');
+    assert.equal(mailAccount.reciever.toBase58(), receiver.publicKey);
+    assert.equal(mailAccount.subject, 'Resume');
+    assert.equal(mailAccount.body, 'candidate for Software Engineering Internship');
     assert.ok(mailAccount.timestamp);
 });
 
