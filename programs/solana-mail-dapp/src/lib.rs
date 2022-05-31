@@ -8,9 +8,13 @@ pub mod solana_mail_dapp {
     use super::*;
 
     pub fn send_mail(ctx: Context<SendMail>, topic: String, content: String) -> Result<()> {
+        //initializing mail struct in transaction
         let mail: &mut Account<Mail> = &mut ctx.accounts.mail;
+        //getting value for sender
         let sender: &Signer = &ctx.accounts.sender;
+        //getting value for reciever
         let reciever=&ctx.accounts.receiver;
+        //getting value from solana clock
         let clock: Clock = Clock::get().unwrap();
 
         mail.sender = *sender.key;
@@ -28,6 +32,7 @@ pub struct SendMail<'info> {
     pub mail: Account<'info, Mail>,
     #[account(mut)]
     pub sender: Signer<'info>,
+    /// CHECK:
     #[account(mut)]
     pub receiver: AccountInfo<'info>,
     #[account(address = system_program::ID)]
