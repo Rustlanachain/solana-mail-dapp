@@ -17,6 +17,7 @@ pub mod solana_mail_dapp {
         //getting value from solana clock
         let clock: Clock = Clock::get().unwrap();
 
+        //populating mail struct
         mail.sender = *sender.key;
         mail.reciever =  *reciever.key;
         mail.subject = topic;
