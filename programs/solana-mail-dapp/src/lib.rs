@@ -28,8 +28,6 @@ pub struct SendMail<'info> {
     pub mail: Account<'info, Mail>,
     #[account(mut)]
     pub sender: Signer<'info>,
-    #[account(address = system_program::ID)]
-    /// CHECK:
     #[account(mut)]
     pub receiver: AccountInfo<'info>,
     #[account(address = system_program::ID)]
